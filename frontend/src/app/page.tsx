@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { DASHBOARD_STATS, FEATURES, HOW_IT_WORKS, MOCK_INCIDENTS } from "@/lib/mockData";
 import SeverityBadge from "@/components/shared/SeverityBadge";
+import TimeAgo from "@/components/shared/TimeAgo";
 
 const FEATURE_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Cpu, GitMerge, Map, Zap, Navigation, ShieldCheck,
@@ -22,12 +23,6 @@ const STEP_ICONS: Record<string, React.ComponentType<{ size?: number; className?
 const PREVIEW_INCIDENTS = MOCK_INCIDENTS
   .filter((i) => i.severity === "extreme" || i.severity === "severe")
   .slice(0, 3);
-
-function timeAgo(iso: string) {
-  const diff = (Date.now() - new Date(iso).getTime()) / 60000;
-  if (diff < 60) return `${Math.round(diff)}m ago`;
-  return `${Math.round(diff / 60)}h ago`;
-}
 
 export default function HomePage() {
   return (
@@ -116,7 +111,7 @@ export default function HomePage() {
                     >
                       <div className="flex items-start justify-between gap-2 mb-1.5">
                         <SeverityBadge severity={inc.severity} size="sm" />
-                        <span className="text-[10px] text-white/40">{timeAgo(inc.timestamp)}</span>
+                        <TimeAgo iso={inc.timestamp} className="text-[10px] text-white/40" />
                       </div>
                       <p className="text-white/90 text-xs font-semibold leading-snug mb-1">{inc.title}</p>
                       <p className="text-white/50 text-[11px] leading-relaxed line-clamp-2">{inc.aiSummary}</p>

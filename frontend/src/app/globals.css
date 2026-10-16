@@ -53,8 +53,8 @@ html, body {
   background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b9b0a0' fill-opacity='0.12'%3E%3Ccircle cx='26' cy='26' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* ── Leaflet tile grayscale ── */
-.leaflet-tile { filter: grayscale(0.88) brightness(1.06); }
+/* ── Leaflet tile style ── */
+.leaflet-tile { filter: saturate(0.9) contrast(1.02); }
 
 /* ── Desktop nav active indicator bar ── */
 .nav-active { position: relative; }

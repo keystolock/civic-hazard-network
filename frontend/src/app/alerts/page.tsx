@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertTriangle, CheckCircle, Clock, Radio, Filter, X } from "lucide-react";
 import SeverityBadge from "@/components/shared/SeverityBadge";
+import TimeAgo from "@/components/shared/TimeAgo";
 import { MOCK_ALERTS, MOCK_INCIDENTS } from "@/lib/mockData";
 import type { SeverityLevel } from "@/lib/types";
 
@@ -14,13 +15,6 @@ const FILTER_TABS: { label: string; value: SeverityLevel | "all" }[] = [
   { label: "🟡 Civic",   value: "civic"    },
   { label: "✅ Resolved", value: "resolved" },
 ];
-
-function timeAgo(iso: string) {
-  const diff = (Date.now() - new Date(iso).getTime()) / 60000;
-  if (diff < 60) return `${Math.round(diff)}m ago`;
-  if (diff < 1440) return `${Math.round(diff / 60)}h ago`;
-  return `${Math.round(diff / 1440)}d ago`;
-}
 
 const SOURCE_STYLE: Record<string, string> = {
   Authority: "bg-blue-50 text-blue-700 border-blue-200",
@@ -175,7 +169,7 @@ export default function AlertsPage() {
                       <h3 className="text-sm font-bold text-neutral-900 leading-snug">{alert.title}</h3>
                     </div>
                     <span className="flex items-center gap-1 text-[10px] text-neutral-500 font-medium flex-shrink-0">
-                      <Clock size={10} /> {timeAgo(alert.timestamp)}
+                      <Clock size={10} /> <TimeAgo iso={alert.timestamp} />
                     </span>
                   </div>
 

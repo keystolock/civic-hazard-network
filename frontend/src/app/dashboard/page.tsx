@@ -9,8 +9,16 @@ import type { IncidentCategory, RadiusFilter } from "@/lib/types";
 import { Radio, TrendingUp, TrendingDown, Minus, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
-// Dynamically import Leaflet map – no SSR
-const LiveMap = dynamic(() => import("@/components/dashboard/LiveMap"), { ssr: false });
+// Dynamically import Leaflet map – no SSR with loading fallback
+const LiveMap = dynamic(() => import("@/components/dashboard/LiveMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-100 text-neutral-400 gap-3">
+      <div className="w-8 h-8 border-2 border-neutral-300 border-t-[#E12D4B] rounded-full animate-spin" />
+      <p className="text-xs font-semibold">Loading Map View...</p>
+    </div>
+  ),
+});
 
 const TREND_ICON = {
   up:      <TrendingUp  size={12} className="text-emerald-500" />,

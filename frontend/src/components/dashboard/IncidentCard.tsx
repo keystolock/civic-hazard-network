@@ -3,15 +3,9 @@
 import { CheckCircle, Clock, GitMerge, Cpu, MapPin, ChevronRight, Share2, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 import SeverityBadge from "@/components/shared/SeverityBadge";
+import TimeAgo from "@/components/shared/TimeAgo";
 import type { Incident } from "@/lib/types";
 import { SEVERITY_CONFIG, CATEGORY_CONFIG } from "@/lib/mockData";
-
-function timeAgo(iso: string) {
-  const diff = (Date.now() - new Date(iso).getTime()) / 60000;
-  if (diff < 60) return `${Math.round(diff)}m ago`;
-  if (diff < 1440) return `${Math.round(diff / 60)}h ago`;
-  return `${Math.round(diff / 1440)}d ago`;
-}
 
 const STATUS_STYLE: Record<string, string> = {
   "Open":        "bg-red-50 text-red-700 border-red-200",
@@ -58,9 +52,10 @@ export default function IncidentCard({ incident: inc, selected, onClick, index }
               </span>
             )}
           </div>
-          <span className="text-[10px] text-neutral-400 font-medium whitespace-nowrap flex-shrink-0">
-            {timeAgo(inc.timestamp)}
-          </span>
+          <TimeAgo
+            iso={inc.timestamp}
+            className="text-[10px] text-neutral-400 font-medium whitespace-nowrap flex-shrink-0"
+          />
         </div>
 
         {/* Title */}
