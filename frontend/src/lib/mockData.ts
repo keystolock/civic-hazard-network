@@ -258,27 +258,27 @@ export const MOCK_ALERTS: AlertBanner[] = [
 
 // ── Dashboard stats ───────────────────────────────────────────────────────
 export const DASHBOARD_STATS: StatItem[] = [
-  { label: "Active Reports",       value: "247", delta: "+18 today",   trend: "up",      color: "text-red-600"     },
-  { label: "Verified by AI",       value: "189", delta: "76% verified", trend: "up",     color: "text-blue-600"    },
-  { label: "Resolved Today",       value: "64",  delta: "↑ 12 vs avg", trend: "up",      color: "text-green-600"   },
-  { label: "Citizens Reporting",   value: "1.2K", delta: "All-time high", trend: "up",   color: "text-purple-600"  },
-  { label: "Avg. Response Time",   value: "8m",  delta: "↓ 2m vs avg", trend: "down",    color: "text-amber-600"   },
-  { label: "Deduped Reports",      value: "43",  delta: "Merged today", trend: "neutral", color: "text-orange-600"  },
+  { label: "Active Reports", value: "247", delta: "+18 today", trend: "up", color: "text-red-600" },
+  { label: "Verified by AI", value: "189", delta: "76% verified", trend: "up", color: "text-blue-600" },
+  { label: "Resolved Today", value: "64", delta: "↑ 12 vs avg", trend: "up", color: "text-green-600" },
+  { label: "Citizens Reporting", value: "1.2K", delta: "All-time high", trend: "up", color: "text-purple-600" },
+  { label: "Avg. Response Time", value: "8m", delta: "↓ 2m vs avg", trend: "down", color: "text-amber-600" },
+  { label: "Deduped Reports", value: "43", delta: "Merged today", trend: "neutral", color: "text-orange-600" },
 ];
 
 // ── Tech stack table (from project spec) ─────────────────────────────────
 export const TECH_STACK: TechRow[] = [
-  { layer: "Frontend Framework",       tech: "Next.js / React",                  usage: "Fast and responsive web UI",                               cost: "Free" },
-  { layer: "Styling & Icons",          tech: "Tailwind CSS + Lucide Icons",       usage: "Styling & iconography",                                    cost: "Free" },
-  { layer: "Interactive Map",          tech: "Leaflet.js + OpenStreetMap",        usage: "Displays live geo-pins and danger heatmaps",               cost: "Open-source & free" },
-  { layer: "Backend API",              tech: "Python (FastAPI)",                  usage: "High speed, native AI libraries",                          cost: "Free" },
-  { layer: "Database",                 tech: "Supabase (PostgreSQL + PostGIS)",   usage: "Handles user records, coordinates, and distance queries",   cost: "Free up to 500 MB" },
-  { layer: "Image Storage",            tech: "Supabase Storage",                 usage: "Stores citizen-uploaded photos of potholes, floods",       cost: "Free 1 GB file storage" },
-  { layer: "Image Deduplication",      tech: "ImageHash (Python library)",        usage: "Computes perceptual image hashes to flag & merge duplicates", cost: "Free & open-source" },
-  { layer: "AI Verification & Summary", tech: "Gemini API",                      usage: "Evaluates image relevance, writes 1-line emergency summaries", cost: "Free tier" },
-  { layer: "Emergency Alerts (SMS & SOS)", tech: "Fast2SMS / Twilio + Telegram Bot API", usage: "Sends live SMS alerts",                            cost: "Telegram Bot is free" },
-  { layer: "Web Push Notifications",   tech: "Web Push API (Service Workers)",   usage: "Sends instant browser notifications",                      cost: "100% free" },
-  { layer: "Deployment",              tech: "Vercel + Render",                   usage: "Frontend and Backend deployment",                          cost: "Free 750 hrs/month" },
+  { layer: "Frontend Framework", tech: "Next.js / React", usage: "Fast and responsive web UI", cost: "Free" },
+  { layer: "Styling & Icons", tech: "Tailwind CSS + Lucide Icons", usage: "Styling & iconography", cost: "Free" },
+  { layer: "Interactive Map", tech: "Leaflet.js + OpenStreetMap", usage: "Displays live geo-pins and danger heatmaps", cost: "Open-source & free" },
+  { layer: "Backend API", tech: "Python (FastAPI)", usage: "High speed, native AI libraries", cost: "Free" },
+  { layer: "Database", tech: "Supabase (PostgreSQL + PostGIS)", usage: "Handles user records, coordinates, and distance queries", cost: "Free up to 500 MB" },
+  { layer: "Image Storage", tech: "Supabase Storage", usage: "Stores citizen-uploaded photos of potholes, floods", cost: "Free 1 GB file storage" },
+  { layer: "Image Deduplication", tech: "ImageHash (Python library)", usage: "Computes perceptual image hashes to flag & merge duplicates", cost: "Free & open-source" },
+  { layer: "AI Verification & Summary", tech: "Gemini API", usage: "Evaluates image relevance, writes 1-line emergency summaries", cost: "Free tier" },
+  { layer: "Emergency Alerts (SMS & SOS)", tech: "Fast2SMS / Twilio + Telegram Bot API", usage: "Sends live SMS alerts", cost: "Telegram Bot is free" },
+  { layer: "Web Push Notifications", tech: "Web Push API (Service Workers)", usage: "Sends instant browser notifications", cost: "100% free" },
+  { layer: "Deployment", tech: "Vercel + Render", usage: "Frontend and Backend deployment", cost: "Free 750 hrs/month" },
 ];
 
 // ── "How it works" steps ─────────────────────────────────────────────────
@@ -345,15 +345,15 @@ export const FEATURES: Feature[] = [
 
 // ── Severity config ───────────────────────────────────────────────────────
 export const SEVERITY_CONFIG = {
-  extreme:  { label: "Extreme Emergency",  color: "#DC2626", bg: "bg-red-600",    light: "bg-red-50",    text: "text-red-700",    border: "border-red-200",    dot: "bg-red-500",    ring: "ring-red-200",    example: "Landslide, Flood" },
-  severe:   { label: "Severe Hazard",      color: "#EA580C", bg: "bg-orange-500", light: "bg-orange-50", text: "text-orange-700", border: "border-orange-200", dot: "bg-orange-500", ring: "ring-orange-200", example: "Road cave-in, Live wire" },
-  civic:    { label: "Civic Complaint",    color: "#CA8A04", bg: "bg-yellow-500", light: "bg-yellow-50", text: "text-yellow-700", border: "border-yellow-200", dot: "bg-yellow-500", ring: "ring-yellow-200", example: "Pothole, Garbage pile" },
-  resolved: { label: "Resolved",           color: "#16A34A", bg: "bg-green-600",  light: "bg-green-50",  text: "text-green-700",  border: "border-green-200",  dot: "bg-green-500",  ring: "ring-green-200",  example: "Issue fixed & verified" },
+  extreme: { label: "Extreme Emergency", color: "#DC2626", bg: "bg-red-600", light: "bg-red-50", text: "text-red-700", border: "border-red-200", dot: "bg-red-500", ring: "ring-red-200", example: "Landslide, Flood" },
+  severe: { label: "Severe Hazard", color: "#EA580C", bg: "bg-orange-500", light: "bg-orange-50", text: "text-orange-700", border: "border-orange-200", dot: "bg-orange-500", ring: "ring-orange-200", example: "Road cave-in, Live wire" },
+  civic: { label: "Civic Complaint", color: "#CA8A04", bg: "bg-yellow-500", light: "bg-yellow-50", text: "text-yellow-700", border: "border-yellow-200", dot: "bg-yellow-500", ring: "ring-yellow-200", example: "Pothole, Garbage pile" },
+  resolved: { label: "Resolved", color: "#16A34A", bg: "bg-green-600", light: "bg-green-50", text: "text-green-700", border: "border-green-200", dot: "bg-green-500", ring: "ring-green-200", example: "Issue fixed & verified" },
 } as const;
 
 export const CATEGORY_CONFIG = {
-  Disaster:  { icon: "Flame",        color: "text-red-600",    bg: "bg-red-50"    },
-  Road:      { icon: "Construction", color: "text-orange-600", bg: "bg-orange-50" },
-  Utilities: { icon: "Zap",          color: "text-yellow-600", bg: "bg-yellow-50" },
-  Medical:   { icon: "Heart",        color: "text-pink-600",   bg: "bg-pink-50"   },
+  Disaster: { icon: "Flame", color: "text-red-600", bg: "bg-red-50" },
+  Road: { icon: "Construction", color: "text-orange-600", bg: "bg-orange-50" },
+  Utilities: { icon: "Zap", color: "text-yellow-600", bg: "bg-yellow-50" },
+  Medical: { icon: "Heart", color: "text-pink-600", bg: "bg-pink-50" },
 } as const;
