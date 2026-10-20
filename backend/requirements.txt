@@ -1,0 +1,30 @@
+# ─── Civic Hazard Network — Backend Dependencies ──────────────────────────────
+# Install with: pip install -r requirements.txt
+
+# Core API framework & server
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+
+# Pydantic v2 data validation
+pydantic==2.11.3
+pydantic-settings==2.9.1
+
+# Database ORM (SQLite for local demo; swap URI for PostgreSQL in production)
+sqlalchemy==2.0.40
+aiosqlite==0.21.0          # Async SQLite driver for SQLAlchemy
+
+# Google GenAI SDK — Gemini 2.5 Flash multimodal AI
+google-genai==1.16.0
+
+# Geospatial / image deduplication
+Pillow==11.2.1
+imagehash==4.3.1
+
+# HTTP client — Telegram Bot API calls
+httpx==0.28.1
+
+# Environment configuration
+python-dotenv==1.1.0
+
+# Multipart form / file upload support
+python-multipart==0.0.20
