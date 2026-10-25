@@ -1,23 +1,32 @@
 # ─── Civic Hazard Network — Backend Dependencies ──────────────────────────────
-# Install with: pip install -r requirements.txt
+# Install with:
+#   python -m pip install --upgrade pip
+#   pip install -r requirements.txt
+#
+# Python 3.14 note: all packages below have pre-built wheels for
+# Python 3.14 / win_amd64. Do NOT attempt to compile from source.
 
 # Core API framework & server
 fastapi==0.115.12
 uvicorn[standard]==0.34.3
 
 # Pydantic v2 data validation
-pydantic==2.11.3
+# Pinned to the exact cp314-compatible triplet (pydantic-core 2.50.1 has cp314-win_amd64 wheel)
+pydantic==2.14.1
 pydantic-settings==2.9.1
+pydantic-core==2.50.1
 
 # Database ORM (SQLite for local demo; swap URI for PostgreSQL in production)
 sqlalchemy==2.0.40
+greenlet==3.5.6            # Required by SQLAlchemy async engine on Python 3.14
 aiosqlite==0.21.0          # Async SQLite driver for SQLAlchemy
 
 # Google GenAI SDK — Gemini 2.5 Flash multimodal AI
-google-genai==1.16.0
+google-genai==1.16.1
 
 # Geospatial / image deduplication
-Pillow==11.2.1
+# Pillow 13.0.0 is the earliest version with a cp314-win_amd64 pre-built wheel
+Pillow==13.0.0
 imagehash==4.3.1
 
 # HTTP client — Telegram Bot API calls
@@ -28,3 +37,7 @@ python-dotenv==1.1.0
 
 # Multipart form / file upload support
 python-multipart==0.0.20
+
+# Test dependencies (only needed for pytest runs)
+pytest==8.3.5
+pytest-asyncio==0.25.3
