@@ -22,13 +22,16 @@ export default function Navbar() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
 
-  // Read current browser notification permission on client mount
+  // Defer reading browser-only permission until after the initial hydration.
   useEffect(() => {
-    if (typeof window !== "undefined" && "Notification" in window) {
-      setNotificationStatus(Notification.permission as NotificationStatus);
-    } else {
-      setNotificationStatus("unsupported");
-    }
+    const timer = window.setTimeout(() => {
+      setNotificationStatus(
+        "Notification" in window
+          ? Notification.permission as NotificationStatus
+          : "unsupported",
+      );
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Close popover on outside click

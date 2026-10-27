@@ -93,6 +93,47 @@ async def test_create_report_no_image(client: AsyncClient):
 
 
 @pytest.mark.asyncio
+async def test_create_report_rejects_invalid_category_and_severity(client: AsyncClient):
+    payload = {
+        "title": "Invalid report category",
+        "category": "Unknown",
+        "latitude": "28.6310",
+        "longitude": "77.2167",
+        "severity": "urgent",
+    }
+    response = await client.post("/api/reports", data=payload)
+    assert response.status_code == 422
+
+
+@pytest.mark.asyncio
+async def test_create_report_rejects_out_of_range_title(client: AsyncClient):
+    response = await client.post(
+        "/api/reports",
+        data={
+            "title": "x" * 256,
+            "category": "Road",
+            "latitude": "28.6310",
+            "longitude": "77.2167",
+        },
+    )
+    assert response.status_code == 422
+
+
+@pytest.mark.asyncio
+async def test_create_report_rejects_whitespace_title(client: AsyncClient):
+    response = await client.post(
+        "/api/reports",
+        data={
+            "title": "     ",
+            "category": "Road",
+            "latitude": "28.6310",
+            "longitude": "77.2167",
+        },
+    )
+    assert response.status_code == 422
+
+
+@pytest.mark.asyncio
 async def test_create_report_returns_duplicate_info(client: AsyncClient):
     """Second nearby report should be flagged as a duplicate."""
     payload = {

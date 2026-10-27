@@ -37,9 +37,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from config import settings
 from database import get_db, init_db
 from models import (
+    CategoryLabel,
     DuplicateInfo,
     HazardReport,
     ReportResponse,
+    SeverityLabel,
     StatusUpdateRequest,
     orm_to_response,
 )
@@ -56,6 +58,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger("civic_hazard")
 
+upload_path = Path(settings.UPLOAD_DIR)
+upload_path.mkdir(parents=True, exist_ok=True)
+
 
 # ─── Lifespan (startup / shutdown) ───────────────────────────────────────────
 
@@ -69,8 +74,6 @@ async def lifespan(app: FastAPI):
     logger.info("🚀 Civic Hazard Network API starting up…")
     await init_db()
 
-    upload_path = Path(settings.UPLOAD_DIR)
-    upload_path.mkdir(parents=True, exist_ok=True)
     logger.info("📁 Upload directory ready: %s", upload_path.resolve())
 
     yield  # Application runs here
@@ -159,12 +162,21 @@ async def _save_upload(file: UploadFile) -> tuple[str, bytes, str]:
 )
 async def create_report(
     # ── Form fields (multipart) ───────────────────────────────────────────────
-    title: str = Form(..., description="Short incident headline (min 5 chars)"),
-    description: Optional[str] = Form(None, description="Extended description"),
-    category: str = Form(..., description="Disaster | Road | Utilities | Medical | Other"),
+    title: str = Form(
+        ...,
+        min_length=5,
+        max_length=255,
+        description="Short incident headline (min 5 chars)",
+    ),
+    description: Optional[str] = Form(
+        None, max_length=2000, description="Extended description"
+    ),
+    category: CategoryLabel = Form(
+        ..., description="Disaster | Road | Utilities | Medical | Other"
+    ),
     latitude: float = Form(..., ge=-90.0, le=90.0),
     longitude: float = Form(..., ge=-180.0, le=180.0),
-    severity: str = Form("civic", description="Self-reported severity hint"),
+    severity: SeverityLabel = Form("civic", description="Self-reported severity hint"),
     reporter_id: Optional[str] = Form(None),
     # ── Optional image upload ─────────────────────────────────────────────────
     image: Optional[UploadFile] = File(None, description="Hazard photo (JPEG / PNG / HEIC)"),
@@ -186,6 +198,13 @@ async def create_report(
         "New report received — title=%r category=%s severity=%s coords=(%.4f, %.4f)",
         title, category, severity, latitude, longitude,
     )
+
+    title = title.strip()
+    if not title:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="title must not be blank",
+        )
 
     # ── Step 1: Persist uploaded image ───────────────────────────────────────
     image_filename: Optional[str] = None

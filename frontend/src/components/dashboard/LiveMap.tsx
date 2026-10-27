@@ -91,27 +91,18 @@ export default function LiveMap({ incidents, selectedId, onSelect }: Props) {
   const markerMapRef = useRef<Map<string, L.Marker>>(new Map());
   const onSelectRef = useRef(onSelect);
 
-  onSelectRef.current = onSelect;
+  useEffect(() => {
+    onSelectRef.current = onSelect;
+  }, [onSelect]);
 
   // Initialize vanilla Leaflet map on mount with complete React Strict Mode cleanup safety
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    // Guard: Prevent double-initialization collision if container has existing Leaflet ID
-    if ((containerRef.current as any)._leaflet_id) {
-      delete (containerRef.current as any)._leaflet_id;
-    }
-
-    // Default icon setup
-    delete (L.Icon.Default.prototype as any)._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-      iconUrl:       "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-      shadowUrl:     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-    });
+    const container = containerRef.current;
+    if (!container) return;
+    const markers = markerMapRef.current;
 
     // Create native Leaflet map instance
-    const map = L.map(containerRef.current, {
+    const map = L.map(container, {
       center: MAP_CENTER,
       zoom: 12,
       zoomControl: true,
@@ -141,13 +132,10 @@ export default function LiveMap({ incidents, selectedId, onSelect }: Props) {
     return () => {
       clearTimeout(resizeTimer);
       markersLayer.clearLayers();
-      markerMapRef.current.clear();
+      markers.clear();
       map.remove();
       mapRef.current = null;
       markersLayerRef.current = null;
-      if (containerRef.current) {
-        delete (containerRef.current as any)._leaflet_id;
-      }
     };
   }, []);
 

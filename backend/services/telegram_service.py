@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
+from html import escape
 from typing import Optional
 
 import httpx
@@ -71,17 +72,22 @@ def _build_alert_message(
     simple to avoid escaping hell — use HTML parse_mode instead for rich text.
     """
     sev_emoji = _SEVERITY_EMOJI.get(severity_label, "⚪")
-    sev_text = severity_label.upper()
-    summary = ai_summary or "No AI summary available."
-    safety = safety_note or "Exercise caution near the reported area."
+    sev_text = escape(severity_label.upper())
+    title_text = escape(title)
+    category_text = escape(category)
+    summary = escape(ai_summary or "No AI summary available.")
+    safety = escape(safety_note or "Exercise caution near the reported area.")
     ts_str = _fmt_timestamp(timestamp)
+    lat_direction = "N" if latitude >= 0 else "S"
+    lon_direction = "E" if longitude >= 0 else "W"
 
     lines = [
         "🚨 <b>CIVIC HAZARD ALERT</b> 🚨",
         "━━━━━━━━━━━━━━━━━━━━━━━━",
-        f"📋 <b>Title:</b>   {title}",
-        f"🏷️ <b>Category:</b> {category}  |  {sev_emoji} <b>{sev_text}</b>",
-        f"📍 <b>Location:</b> {latitude:.4f}°N, {longitude:.4f}°E",
+        f"📋 <b>Title:</b>   {title_text}",
+        f"🏷️ <b>Category:</b> {category_text}  |  {sev_emoji} <b>{sev_text}</b>",
+        f"📍 <b>Location:</b> {abs(latitude):.4f}°{lat_direction}, "
+        f"{abs(longitude):.4f}°{lon_direction}",
         f"🤖 <b>AI Summary:</b> {summary}",
         f"🛡️ <b>Safety Note:</b> {safety}",
         f"🕐 <b>Reported:</b> {ts_str}",

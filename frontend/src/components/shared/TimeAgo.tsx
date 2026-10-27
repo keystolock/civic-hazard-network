@@ -31,14 +31,18 @@ export default function TimeAgo({ iso, className, fallback = "recently" }: TimeA
   const [displayText, setDisplayText] = useState<string>(fallback);
 
   useEffect(() => {
-    // Evaluate only on client after mount
-    setDisplayText(formatTimeAgo(iso));
+    const initialUpdate = window.setTimeout(() => {
+      setDisplayText(formatTimeAgo(iso));
+    }, 0);
 
     const interval = setInterval(() => {
       setDisplayText(formatTimeAgo(iso));
     }, 30000);
 
-    return () => clearInterval(interval);
+    return () => {
+      window.clearTimeout(initialUpdate);
+      clearInterval(interval);
+    };
   }, [iso]);
 
   return (
